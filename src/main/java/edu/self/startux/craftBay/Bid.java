@@ -38,7 +38,7 @@ public class Bid implements Comparable<Bid>, ConfigurationSerializable {
         }
 
         public Bid(Merchant bidder, MoneyAmount amount) {
-                this(bidder, amount.getDouble());
+                this(bidder, amount.getInt());
         }
 
         public Merchant getBidder() {
@@ -54,7 +54,7 @@ public class Bid implements Comparable<Bid>, ConfigurationSerializable {
         }
 
         public void setAmount(MoneyAmount amount) {
-                this.amount = amount.getDouble();
+                this.amount = amount.getInt();
         }
 
         @Override
@@ -74,6 +74,6 @@ public class Bid implements Comparable<Bid>, ConfigurationSerializable {
 
         @SuppressWarnings("unchecked")
         public static Bid deserialize(Map<String, Object> map) {
-                return new Bid((Merchant)map.get("bidder"), new MoneyAmount(map.get("amount")).getDouble());
+                return new Bid((Merchant)map.get("bidder"), new MoneyAmount(map.get("amount")).getInt());
         }
 }

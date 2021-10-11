@@ -75,11 +75,11 @@ public final class AuctionHouse {
         double fee = 0.0;
         double tax = 0.0;
         if (!owner.hasPermission("auction.nofee")) fee = plugin.getConfig().getDouble("auctionfee");
-        if (!owner.hasPermission("auction.notax") && startingBid.getDouble() > plugin.getConfig().getDouble("startingbid")) {
-            tax = (plugin.getConfig().getDouble("auctiontax") * (startingBid.getDouble() - plugin.getConfig().getDouble("startingbid"))) / 100.0;
+        if (!owner.hasPermission("auction.notax") && startingBid.getInt() > plugin.getConfig().getDouble("startingbid")) {
+            tax = (plugin.getConfig().getDouble("auctiontax") * (startingBid.getInt() - plugin.getConfig().getDouble("startingbid"))) / 100.0;
         }
         MoneyAmount feetax = new MoneyAmount(fee + tax);
-        if (feetax.getDouble() > 0.0) {
+        if (feetax.getInt() > 0.0) {
             if (!owner.hasAmount(feetax)) {
                 owner.warn(plugin.getMessage("auction.create.FeeTooHigh").set(owner).set("fee", feetax));
                 return null;
@@ -94,7 +94,7 @@ public final class AuctionHouse {
         // create
         Auction auction = new TimedAuction(plugin, owner, item);
         auction.setState(AuctionState.QUEUED);
-        if (startingBid.getDouble() > 0) auction.setStartingBid(startingBid);
+        if (startingBid.getInt() > 0) auction.setStartingBid(startingBid);
         auction.setFee(feetax);
         plugin.getAuctionScheduler().queueAuction(auction);
         plugin.getServer().getPluginManager().callEvent(new AuctionCreateEvent(auction));
@@ -123,7 +123,7 @@ public final class AuctionHouse {
 
     public void cancelAuction(Auction auction) {
         ItemDelivery.schedule(auction.getOwner(), auction.getItem(), auction);
-        if (auction.getFee().getDouble() > 0.0) {
+        if (auction.getFee().getInt() > 0.0) {
             auction.getOwner().giveAmount(auction.getFee(), "Auction Fee");
             auction.getOwner().msg(plugin.getMessage("auction.cancel.FeeReturn").set(auction));
         }

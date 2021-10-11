@@ -102,7 +102,7 @@ public final class AuctionCommand extends AuctionParameters implements CommandEx
             Auction auc = plugin.getAuction();
             if (auc != null) {
                 String minBidStr = auc.getMinimalBid().toString();
-                int minBid = (int) auc.getMinimalBid().getDouble();
+                int minBid = (int) auc.getMinimalBid().getInt();
                 Msg.raw(player,
                         Msg.format("&3Your options: "),
                         Msg.button(ChatColor.AQUA,
@@ -244,7 +244,7 @@ public final class AuctionCommand extends AuctionParameters implements CommandEx
         }
         double startingbid = plugin.getConfig().getDouble("startingbid");
         if (price == null) price = new MoneyAmount(startingbid);
-        if (price.getDouble() < startingbid) {
+        if (price.getInt() < startingbid) {
             plugin.warn(player, plugin.getMessage("commands.start.StartingBidTooLow").set(player));
             return;
         }
@@ -310,7 +310,7 @@ public final class AuctionCommand extends AuctionParameters implements CommandEx
         }
         double startingbid = plugin.getConfig().getDouble("startingbid");
         if (price == null) price = new MoneyAmount(startingbid);
-        if (price.getDouble() < startingbid) {
+        if (price.getInt() < startingbid) {
             plugin.warn(player, plugin.getMessage("commands.start.StartingBidTooLow").set(player));
             return;
         }

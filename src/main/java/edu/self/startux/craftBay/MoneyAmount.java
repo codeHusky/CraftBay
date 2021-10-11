@@ -25,9 +25,9 @@ import net.kyori.adventure.text.Component;
 @Value
 public final class MoneyAmount implements Comparable<MoneyAmount> {
     public static MoneyAmount ZERO = new MoneyAmount(0.0);
-    private final double amount;
+    private final int amount;
 
-    public MoneyAmount(final double amount) {
+    public MoneyAmount(final int amount) {
         this.amount = amount;
     }
 
@@ -39,35 +39,35 @@ public final class MoneyAmount implements Comparable<MoneyAmount> {
      */
     public MoneyAmount(final Object o) {
         if (o instanceof Number) {
-            amount = ((Number) o).doubleValue();
+            amount = ((Number) o).intValue();
         } else if (o instanceof String) {
-            double v = 0.0;
+            int v = 0;
             try {
-                v = Double.parseDouble((String) o);
+                v = Integer.parseInt((String) o);
             } catch (NumberFormatException nfe) { }
             amount = v;
         } else {
-            double v = 0.0;
+            int v = 0;
             try {
-                v = Double.parseDouble(o.toString());
+                v = Integer.parseInt(o.toString());
             } catch (NumberFormatException nfe) { }
             amount = v;
         }
     }
 
-    public double getDouble() {
+    public int getInt() {
         return amount;
     }
 
     @Override
     public int compareTo(MoneyAmount other) {
-        return Double.compare(amount, other.amount);
+        return Integer.compare(amount, other.amount);
     }
 
     @Override
     public String toString() {
         try {
-            return CraftBayPlugin.getInstance().getEco().format((double) amount);
+            return CraftBayPlugin.getInstance().getEco().format(amount);
         } catch (RuntimeException e) {
             return "" + amount;
         }

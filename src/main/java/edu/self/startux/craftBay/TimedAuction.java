@@ -72,7 +72,7 @@ public class TimedAuction extends AbstractAuction {
 
     @Override
     public void setStartingBid(MoneyAmount amount) {
-        minbid = amount.getDouble();
+        minbid = amount.getInt();
     }
 
     @Override
@@ -142,7 +142,7 @@ public class TimedAuction extends AbstractAuction {
         if (bids.size() == 1) return new MoneyAmount(minbid);
         for (Bid bid : bids) {
             if (!bid.getBidder().equals(winner)) {
-                double res = Math.min(bid.getAmount() + minIncrement, getMaxBid().getDouble());
+                double res = Math.min(bid.getAmount() + minIncrement, getMaxBid().getInt());
                 return new MoneyAmount(res);
             }
         }
@@ -156,7 +156,7 @@ public class TimedAuction extends AbstractAuction {
     @Override
     public MoneyAmount getMinimalBid() {
         if (bids.isEmpty()) return new MoneyAmount(minbid);
-        double winningBid = getWinningBid().getDouble();
+        double winningBid = getWinningBid().getInt();
         double increment = Math.max(minIncrement, winningBid * minRaise);
         return new MoneyAmount(winningBid + increment);
     }
@@ -193,11 +193,12 @@ public class TimedAuction extends AbstractAuction {
             bidder.warn(getPlugin().getMessage("auction.bid.DoubleBid").set(this, bidder));
             return false;
         }
-        if (bidder.equals(getWinner()) && bid.getDouble() <= getMaxBid().getDouble() && bidder != BankMerchant.getInstance()) {
+        if (bidder.equals(getWinner()) && bid.getInt() <= getMaxBid().getInt() && bidder != BankMerchant.getInstance()) {
             bidder.warn(getPlugin().getMessage("auction.bid.UnderbidSelf").set(this, bidder));
             return false;
         }
-        if (bid.getDouble() < getMinimalBid().getDouble()) {
+        System.out.println(bid.getInt() + " ?? ");
+        if (bid.getInt() < getMinimalBid().getInt()) {
             bidder.warn(getPlugin().getMessage("auction.bid.BidTooSmall").set(this, bidder));
             return false;
         }
@@ -223,7 +224,7 @@ public class TimedAuction extends AbstractAuction {
         result.put("state", getState().name());
         result.put("item", getItem().clone());
         result.put("bids", bids);
-        result.put("fee", getFee().getDouble());
+        result.put("fee", getFee().getInt());
         result.put("log", new ArrayList<String>(getLog()));
         if (lastBidder != null) {
             result.put("lastbidder", lastBidder.toString());
@@ -238,7 +239,7 @@ public class TimedAuction extends AbstractAuction {
         Item item = (Item)map.get("item");
         TimedAuction result = new TimedAuction(plugin, owner, item);
         result.timeLeft = (Integer)map.get("timeleft");
-        result.minbid = new MoneyAmount(map.get("minbid")).getDouble();
+        result.minbid = new MoneyAmount(map.get("minbid")).getInt();
         result.setState(AuctionState.getByName((String)map.get("state")));
         result.bids = new LinkedList<Bid>((List<Bid>)map.get("bids"));
         result.setFee(new MoneyAmount(map.get("fee")));

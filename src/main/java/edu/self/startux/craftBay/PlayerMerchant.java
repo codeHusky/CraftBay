@@ -70,10 +70,10 @@ public class PlayerMerchant implements Merchant {
 
     @Override
     public boolean hasAmount(MoneyAmount amount) {
-        if (amount.getDouble() < 0.0) {
+        if (amount.getInt() < 0.0) {
             throw new IllegalArgumentException("given amount must be positive!");
         }
-        if (!getPlugin().getEco().has(getOfflinePlayer(), amount.getDouble())) {
+        if (!getPlugin().getEco().has(getOfflinePlayer(), amount.getInt())) {
             return false;
         }
         return true;
@@ -81,12 +81,12 @@ public class PlayerMerchant implements Merchant {
 
     @Override
     public boolean giveAmount(MoneyAmount amount, String message) {
-        if (amount.getDouble() < 0.0) {
+        if (amount.getInt() < 0.0) {
             throw new IllegalArgumentException("given amount must be positive!");
         }
         OfflinePlayer off = getOfflinePlayer();
         MoneyAmount before = new MoneyAmount(getPlugin().getEco().get(off));
-        boolean success = getPlugin().getEco().give(off, amount.getDouble(), message);
+        boolean success = getPlugin().getEco().give(off, amount.getInt(), message);
         MoneyAmount after = new MoneyAmount(getPlugin().getEco().get(off));
         if (getPlugin().getDebugMode()) {
             getPlugin().getLogger().info(String.format("GIVE player='%s' amount='%s' success='%b' before='%s' after='%s'", playerName, amount, success, before, after));
@@ -96,12 +96,12 @@ public class PlayerMerchant implements Merchant {
 
     @Override
     public boolean takeAmount(MoneyAmount amount, String message) {
-        if (amount.getDouble() < 0.0) {
+        if (amount.getInt() < 0.0) {
             throw new IllegalArgumentException("take amount must be positive!");
         }
         OfflinePlayer off = getOfflinePlayer();
         MoneyAmount before = new MoneyAmount(getPlugin().getEco().get(off));
-        boolean success = getPlugin().getEco().take(off, amount.getDouble(), message);
+        boolean success = getPlugin().getEco().take(off, amount.getInt(), message);
         MoneyAmount after = new MoneyAmount(getPlugin().getEco().get(off));
         if (getPlugin().getDebugMode()) {
             getPlugin().getLogger().info(String.format("TAKE player='%s' amount='%s' success='%b' before='%s' after='%s'", playerName, amount, success, before, after));
