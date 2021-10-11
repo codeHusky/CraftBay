@@ -197,7 +197,6 @@ public class TimedAuction extends AbstractAuction {
             bidder.warn(getPlugin().getMessage("auction.bid.UnderbidSelf").set(this, bidder));
             return false;
         }
-        System.out.println(bid.getInt() + " ?? ");
         if (bid.getInt() < getMinimalBid().getInt()) {
             bidder.warn(getPlugin().getMessage("auction.bid.BidTooSmall").set(this, bidder));
             return false;
