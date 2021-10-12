@@ -1,5 +1,6 @@
 # CraftBay
 
+### This fork fixes a ton of stupid problems with this plugin's current state. Use with caution.
 Auction off your precious items! CraftBay is an auctioning system that allows players to trade their items by bidding for them. After a set amount of time, the highest bid wins. Payment is handled via **Vault**.
 
 ## Links
