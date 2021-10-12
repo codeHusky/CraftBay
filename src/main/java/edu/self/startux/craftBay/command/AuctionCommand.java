@@ -248,6 +248,12 @@ public final class AuctionCommand extends AuctionParameters implements CommandEx
             plugin.warn(player, plugin.getMessage("commands.start.StartingBidTooLow").set(player));
             return;
         }
+
+        Merchant merchant = PlayerMerchant.getByPlayer(player);
+        if (!plugin.getAuctionHouse().checkCooldown(merchant)) {
+            merchant.warn(plugin.getMessage("auction.create.OwnerCooldown").set(merchant).set("cooldown", new AuctionTime(plugin.getAuctionHouse().getCooldown(merchant))));
+            return;
+        }
         plugin.getAuctionInventory().initPlayer(player, price);
     }
 
@@ -315,6 +321,10 @@ public final class AuctionCommand extends AuctionParameters implements CommandEx
             return;
         }
         Merchant merchant = PlayerMerchant.getByPlayer(player);
+        if (!plugin.getAuctionHouse().checkCooldown(merchant)) {
+            merchant.warn(plugin.getMessage("auction.create.OwnerCooldown").set(merchant).set("cooldown", new AuctionTime(plugin.getAuctionHouse().getCooldown(merchant))));
+            return;
+        }
         Auction auction = plugin.getAuctionHouse().createAuction(merchant, item, price);
         if (auction != null) {
             player.getInventory().setItemInMainHand(null);
